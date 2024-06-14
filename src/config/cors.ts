@@ -1,21 +1,14 @@
-import {CorsOptions} from 'cors'
+import { CorsOptions } from 'cors';
 
 export const corsConfig: CorsOptions = {
-    origin: function(origin,callback){
-
-        console.log(process.argv)
-        const whiteList =[process.env.FRONTEND_URL]
-
-        if (process.argv.includes('--api')) {
-            whiteList.push(undefined,null)
-            console.log("entrando al if")
-        }
-
-        if(whiteList.includes(origin)){
-            callback(null,true)
-        }else{
-
-            callback(new Error('No permitido por CORS'))
-        }
+  origin: function (origin, callback) {
+    // Permitir todas las solicitudes si se pasa el argumento '--api'
+    if (process.argv.includes('--api')) {
+      callback(null, true);
+      return;
     }
-    }
+
+    // Permitir todas las solicitudes desde cualquier origen
+    callback(null, true);
+  }
+};
